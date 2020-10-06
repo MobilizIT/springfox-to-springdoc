@@ -1,5 +1,7 @@
 package mobiliz.tospringdoc;
 
-public interface AnnotationMigrator<T> {
-    void migrate(T expr);
+import com.github.javaparser.ast.expr.NormalAnnotationExpr;
+
+public interface AnnotationMigrator {
+    void migrate(NormalAnnotationExpr expr);
 }

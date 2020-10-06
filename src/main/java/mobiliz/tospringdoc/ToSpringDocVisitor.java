@@ -1,15 +1,19 @@
 package mobiliz.tospringdoc;
 
 import com.github.javaparser.ast.ImportDeclaration;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
-import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
-import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
+import com.github.javaparser.ast.visitor.ModifierVisitor;
+import com.github.javaparser.ast.visitor.Visitable;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ToSpringDocVisitor extends VoidVisitorAdapter<Object> {
+public class ToSpringDocVisitor extends ModifierVisitor<Object> {
 
     private static Map<String, String> IMPORTS_MAP = new HashMap<>();
+    private static Map<String, AnnotationMigrator> ANNO_MIGRATE_MAP = new HashMap<>();
 
     static {
         IMPORTS_MAP.put("io.swagger.annotations.Api", "io.swagger.v3.oas.annotations.tags.Tag");
@@ -22,27 +26,27 @@ public class ToSpringDocVisitor extends VoidVisitorAdapter<Object> {
         IMPORTS_MAP.put("io.swagger.annotations.ApiImplicitParams", "io.swagger.v3.oas.annotations.Parameters");
         IMPORTS_MAP.put("io.swagger.annotations.ApiModel", "io.swagger.v3.oas.annotations.media.Schema");
         IMPORTS_MAP.put("io.swagger.annotations.ApiModelProperty", "io.swagger.v3.oas.annotations.media.Schema");
+
+        ANNO_MIGRATE_MAP.put(ApiOperation.class.getSimpleName(), new ApiOperationMigrator());
+        ANNO_MIGRATE_MAP.put(ApiResponse.class.getSimpleName(), new ApiResponseMigrator());
     }
 
     @Override
-    public void visit(ImportDeclaration n, Object arg) {
+    public Node visit(ImportDeclaration n, Object arg) {
         String replaceWith = IMPORTS_MAP.get(n.getNameAsString());
         if (replaceWith != null) {
             n.setName(replaceWith);
         }
+        return n;
     }
 
-    @Override
-    public void visit(NormalAnnotationExpr n, Object arg) {
-        String name = n.getNameAsString();
 
-        switch (name) {
-            case "Hede":
-                break;
-            case "ApiResponses":
-                break;
-            case "ApiOperation":
-                new ApiOperationMigrator().migrate(n);
+    @Override
+    public Visitable visit(NormalAnnotationExpr n, Object arg) {
+        String name = n.getNameAsString();
+        if (ANNO_MIGRATE_MAP.containsKey(name)) {
+            ANNO_MIGRATE_MAP.get(name).migrate(n);
         }
+        return n;
     }
 }
