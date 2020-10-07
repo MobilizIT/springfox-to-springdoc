@@ -3,6 +3,7 @@ package mobiliz.tospringdoc.migrator.impl;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.expr.MemberValuePair;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
@@ -14,9 +15,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import mobiliz.tospringdoc.core.Attributes;
-import mobiliz.tospringdoc.migrator.AnnotationMigrator;
+import mobiliz.tospringdoc.migrator.AbstractAnnotationMigrator;
 
-public class ApiMigrator extends AnnotationMigrator {
+public class ApiMigrator extends AbstractAnnotationMigrator {
 
     @Override
     public void migrate(NormalAnnotationExpr expr) {
@@ -46,6 +47,13 @@ public class ApiMigrator extends AnnotationMigrator {
         expr.setName(Tags.class.getSimpleName());
         expr.tryAddImportToParentCompilationUnit(Tags.class);
         expr.addPair(Attributes.VALUE, new ArrayInitializerExpr(new NodeList<>(createTagExpr(tags))));
+    }
+
+    @Override
+    public void migrate(MarkerAnnotationExpr expr) {
+        // useless case but developers choice
+        replaceOrAddImport(expr, Api.class, Tag.class);
+        expr.setName(Tag.class.getSimpleName());
     }
 
     private List<Expression> createTagExpr(List<String> tags) {

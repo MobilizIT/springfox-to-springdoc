@@ -1,0 +1,9 @@
+import io.swagger.v3.oas.annotations.Hidden;
+
+public class TestController {
+
+    @Hidden
+    public Domino getDomino() {
+        return null;
+    }
+}

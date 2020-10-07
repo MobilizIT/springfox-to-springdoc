@@ -1,6 +1,7 @@
 package mobiliz.tospringdoc.migrator.impl;
 
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.expr.MemberValuePair;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
@@ -40,6 +41,12 @@ public class ApiResponseMigrator extends AbstractSchemaHolderAnnotationMigrator 
             }
         }
         applyResponse(expr, response, responseContainer);
+    }
+
+    @Override
+    public void migrate(MarkerAnnotationExpr expr) {
+        // useless case but developers choice
+        replaceOrAddImport(expr, ApiResponse.class, io.swagger.v3.oas.annotations.responses.ApiResponse.class);
     }
 
     private boolean isProcessed(NormalAnnotationExpr expr) {

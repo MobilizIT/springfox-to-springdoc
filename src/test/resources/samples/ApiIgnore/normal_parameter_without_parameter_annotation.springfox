@@ -1,0 +1,8 @@
+import springfox.documentation.annotations.ApiIgnore;
+
+public class TestController {
+
+    public Domino getDomino(@ApiIgnore() String name) {
+        return null;
+    }
+}

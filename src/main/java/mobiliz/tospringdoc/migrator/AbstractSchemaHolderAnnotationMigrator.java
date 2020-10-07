@@ -8,7 +8,7 @@ import mobiliz.tospringdoc.core.Attributes;
 import mobiliz.tospringdoc.core.NodeFactory;
 import mobiliz.tospringdoc.util.ResponseUtils;
 
-public abstract class AbstractSchemaHolderAnnotationMigrator extends AnnotationMigrator {
+public abstract class AbstractSchemaHolderAnnotationMigrator extends AbstractAnnotationMigrator {
 
     protected void applyResponse(NormalAnnotationExpr expr, String response, String responseContainer) {
         if (expr == null || response == null) {

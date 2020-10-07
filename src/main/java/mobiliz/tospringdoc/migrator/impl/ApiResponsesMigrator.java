@@ -2,12 +2,13 @@ package mobiliz.tospringdoc.migrator.impl;
 
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.expr.MemberValuePair;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import io.swagger.annotations.ApiResponses;
-import mobiliz.tospringdoc.migrator.AnnotationMigrator;
+import mobiliz.tospringdoc.migrator.AbstractAnnotationMigrator;
 
-public class ApiResponsesMigrator extends AnnotationMigrator {
+public class ApiResponsesMigrator extends AbstractAnnotationMigrator {
 
     private final ApiResponseMigrator apiResponseMigrator = new ApiResponseMigrator();
 
@@ -30,5 +31,10 @@ public class ApiResponsesMigrator extends AnnotationMigrator {
                 apiResponseMigrator.migrate((NormalAnnotationExpr) respAnno);
             }
         }
+    }
+
+    @Override
+    public void migrate(MarkerAnnotationExpr expr) {
+        replaceOrAddImport(expr, ApiResponses.class, io.swagger.v3.oas.annotations.responses.ApiResponses.class);
     }
 }
