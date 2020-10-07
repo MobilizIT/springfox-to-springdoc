@@ -6,16 +6,19 @@ import com.github.javaparser.ast.expr.MemberValuePair;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
-import mobiliz.tospringdoc.Attributes;
+import mobiliz.tospringdoc.core.Attributes;
+import mobiliz.tospringdoc.migrator.AbstractSchemaHolderAnnotationMigrator;
 import mobiliz.tospringdoc.util.ResponseUtils;
 
 public class ApiOperationMigrator extends AbstractSchemaHolderAnnotationMigrator {
 
     @Override
     public void migrate(NormalAnnotationExpr expr) {
+        replaceOrAddImport(expr, ApiOperation.class, Operation.class);
         expr.setName(Operation.class.getSimpleName());
         String response = null;
         String responseContainer = null;

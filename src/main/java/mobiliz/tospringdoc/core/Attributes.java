@@ -1,4 +1,4 @@
-package mobiliz.tospringdoc;
+package mobiliz.tospringdoc.core;
 
 public final class Attributes {
     public static final String VALUE = "value";

@@ -6,19 +6,21 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MemberValuePair;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import mobiliz.tospringdoc.Attributes;
+import mobiliz.tospringdoc.core.Attributes;
 import mobiliz.tospringdoc.migrator.AnnotationMigrator;
 
-public class ApiMigrator implements AnnotationMigrator {
+public class ApiMigrator extends AnnotationMigrator {
 
     @Override
     public void migrate(NormalAnnotationExpr expr) {
+        replaceOrAddImport(expr, Api.class, Tag.class);
         if (expr.getPairs() == null || expr.getPairs().isEmpty()) {
             expr.setName(Tag.class.getSimpleName());
             return;

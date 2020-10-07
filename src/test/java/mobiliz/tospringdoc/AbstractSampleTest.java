@@ -26,6 +26,8 @@ public abstract class AbstractSampleTest {
         toSpringDoc.visit(compilationUnit, null);
         String migratedSource = compilationUnit.toString();
         String expectedSource = IOUtils.toString(this.getClass().getResourceAsStream(docPath), "UTF-8");
+        System.out.println(migratedSource);
+        System.out.println(expectedSource);
         Assert.assertEquals(expectedSource, migratedSource);
     }
 }

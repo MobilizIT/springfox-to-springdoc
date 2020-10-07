@@ -4,14 +4,16 @@ import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MemberValuePair;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
+import io.swagger.annotations.ApiResponses;
 import mobiliz.tospringdoc.migrator.AnnotationMigrator;
 
-public class ApiResponsesMigrator implements AnnotationMigrator {
+public class ApiResponsesMigrator extends AnnotationMigrator {
 
     private final ApiResponseMigrator apiResponseMigrator = new ApiResponseMigrator();
 
     @Override
     public void migrate(NormalAnnotationExpr expr) {
+        replaceOrAddImport(expr, ApiResponses.class, io.swagger.v3.oas.annotations.responses.ApiResponses.class);
         if (expr.getPairs() == null || expr.getPairs().isEmpty()) {
             return;
         }
