@@ -1,18 +1,18 @@
-package mobiliz.tospringdoc;
+package mobiliz.tospringdoc.migrator.impl;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.MemberValuePair;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.SimpleName;
+import com.github.javaparser.ast.expr.StringLiteralExpr;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
+import mobiliz.tospringdoc.Attributes;
+import mobiliz.tospringdoc.util.ResponseUtils;
 
-public class ApiOperationMigrator implements AnnotationMigrator {
+public class ApiOperationMigrator extends AbstractSchemaHolderAnnotationMigrator {
 
     @Override
     public void migrate(NormalAnnotationExpr expr) {
@@ -41,21 +41,10 @@ public class ApiOperationMigrator implements AnnotationMigrator {
     }
 
     private void applyResponseOk(NormalAnnotationExpr expr, String response, String responseContainer) {
-        MethodDeclaration parentNode = (MethodDeclaration) expr.getParentNode().get();
         NormalAnnotationExpr responseOkExpr = getResponseOkExpr(expr);
         responseOkExpr.getPairs().clear();
-        // TODO handle ResponseContainerType.MAP
-        NormalAnnotationExpr content = null;
-        if (ResponseContainerType.LIST.equals(responseContainer) || ResponseContainerType.SET.equals(responseContainer)) {
-            content = NodeFactory.createArrayContentExpr(response);
-            parentNode.tryAddImportToParentCompilationUnit(ArraySchema.class);
-        } else {
-            content = NodeFactory.createContentExpr(response);
-        }
-        responseOkExpr.addPair(Attributes.RESPONSE_CODE, "200");
-        responseOkExpr.addPair(Attributes.CONTENT, content);
-        parentNode.tryAddImportToParentCompilationUnit(Schema.class);
-        parentNode.tryAddImportToParentCompilationUnit(Content.class);
+        responseOkExpr.addPair(Attributes.RESPONSE_CODE, new StringLiteralExpr("200"));
+        applyResponse(responseOkExpr, response, responseContainer);
     }
 
 
@@ -71,9 +60,11 @@ public class ApiOperationMigrator implements AnnotationMigrator {
             }
 
             for (MemberValuePair pair : pairs) {
-                String value = pair.getValue().toString();
-                if ("\"200\"".equals(value) || "200".equals(value) || "HttpServletResponse.SC_OK".equals(value)) {
-                    return true;
+                if (pair.getNameAsString().equals(Attributes.RESPONSE_CODE)) {
+                    Integer responseCode = ResponseUtils.resolveResponseCode(pair.getValue().toString());
+                    if (responseCode != null && responseCode >= 200 && responseCode < 400) {
+                        return true;
+                    }
                 }
             }
             return false;

@@ -14,5 +14,4 @@ public final class Attributes {
     public static final String MESSAGE = "message";
     public static final String DESCRIPTION = "description";
     public static final String SUMMARY = "summary";
-
 }

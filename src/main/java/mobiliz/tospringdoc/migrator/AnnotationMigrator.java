@@ -1,4 +1,4 @@
-package mobiliz.tospringdoc;
+package mobiliz.tospringdoc.migrator;
 
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 

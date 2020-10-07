@@ -1,15 +1,15 @@
-package mobiliz.tospringdoc;
+package mobiliz.tospringdoc.migrator.impl;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.MemberValuePair;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import jakarta.servlet.http.HttpServletResponse;
+import com.github.javaparser.ast.expr.StringLiteralExpr;
 import java.util.ArrayList;
 import java.util.List;
+import mobiliz.tospringdoc.Attributes;
+import mobiliz.tospringdoc.util.ResponseUtils;
 
-public class ApiResponseMigrator implements AnnotationMigrator {
+public class ApiResponseMigrator extends AbstractSchemaHolderAnnotationMigrator {
 
     @Override
     public void migrate(NormalAnnotationExpr expr) {
@@ -18,18 +18,28 @@ public class ApiResponseMigrator implements AnnotationMigrator {
         }
         List<MemberValuePair> pairs = new ArrayList<>(expr.getPairs());
         expr.getPairs().clear();
+        String response = null;
+        String responseContainer = null;
         for (MemberValuePair pair : pairs) {
             switch (pair.getNameAsString()) {
                 case Attributes.CODE:
-                    expr.addPair(Attributes.RESPONSE_CODE, resolveResponseCode(pair.getValue().toString()));
+                    int responseCode = ResponseUtils.resolveResponseCode(pair.getValue().toString());
+                    expr.addPair(Attributes.RESPONSE_CODE, new StringLiteralExpr(String.valueOf(responseCode)));
                     break;
                 case Attributes.MESSAGE:
                     expr.addPair(Attributes.DESCRIPTION, pair.getValue());
+                    break;
+                case Attributes.RESPONSE:
+                    response = pair.getValue().toString();
+                    break;
+                case Attributes.RESPONSE_CONTAINER:
+                    responseContainer = pair.getValue().toString();
             }
         }
+        applyResponse(expr, response, responseContainer);
     }
 
-    public boolean isProcessed(NormalAnnotationExpr expr) {
+    private boolean isProcessed(NormalAnnotationExpr expr) {
         NodeList<MemberValuePair> pairs = expr.getPairs();
         if (pairs == null || pairs.isEmpty()) {
             return false;
@@ -40,11 +50,5 @@ public class ApiResponseMigrator implements AnnotationMigrator {
             }
         }
         return false;
-    }
-
-    public String resolveResponseCode(String code) {
-        Binding binding = new Binding();
-        binding.setProperty("HttpServletResponse", HttpServletResponse.class);
-        return new GroovyShell(binding).evaluate("return " + code).toString();
     }
 }
