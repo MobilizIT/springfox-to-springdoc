@@ -3,9 +3,6 @@ package mobiliz.tospringdoc;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -15,7 +12,6 @@ public class Main {
 
 
     public static void main(String... args) throws FileNotFoundException {
-
         JavaParser javaParser = new JavaParser();
         ParseResult<CompilationUnit> parse = javaParser.parse(new File(sampleClass));
         CompilationUnit compilationUnit = parse.getResult().get();

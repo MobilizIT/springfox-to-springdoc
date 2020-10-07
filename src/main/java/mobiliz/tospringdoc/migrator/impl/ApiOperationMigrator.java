@@ -27,11 +27,12 @@ public class ApiOperationMigrator extends AbstractSchemaHolderAnnotationMigrator
                     break;
                 case Attributes.NOTES:
                     pair.setName(new SimpleName(Attributes.DESCRIPTION));
+                    break;
                 case Attributes.RESPONSE:
                     response = pair.getValue().toString();
                     break;
                 case Attributes.RESPONSE_CONTAINER:
-                    response = pair.getValue().toString();
+                    responseContainer = pair.getValue().asStringLiteralExpr().getValue();
             }
         }
         if (response != null) {
@@ -41,37 +42,66 @@ public class ApiOperationMigrator extends AbstractSchemaHolderAnnotationMigrator
     }
 
     private void applyResponseOk(NormalAnnotationExpr expr, String response, String responseContainer) {
-        NormalAnnotationExpr responseOkExpr = getResponseOkExpr(expr);
-        responseOkExpr.getPairs().clear();
-        responseOkExpr.addPair(Attributes.RESPONSE_CODE, new StringLiteralExpr("200"));
+        ResponseOk responseOk = getResponseOkExpr(expr);
+        NormalAnnotationExpr responseOkExpr = responseOk.getExpr();
+        if (responseOkExpr.getPairs() != null) {
+            responseOkExpr.getPairs().clear();
+        }
+        responseOkExpr.addPair(Attributes.RESPONSE_CODE, new StringLiteralExpr(String.valueOf(responseOk.getResponseCode())));
         applyResponse(responseOkExpr, response, responseContainer);
     }
 
 
-    private NormalAnnotationExpr getResponseOkExpr(NormalAnnotationExpr expr) {
+    private ResponseOk getResponseOkExpr(NormalAnnotationExpr expr) {
         MethodDeclaration parentNode = (MethodDeclaration) expr.getParentNode().get();
-        List<NormalAnnotationExpr> exprs = parentNode.findAll(NormalAnnotationExpr.class, e -> {
-            if (!e.getNameAsString().equals(ApiResponse.class.getSimpleName())) {
-                return false;
-            }
-            NodeList<MemberValuePair> pairs = e.getPairs();
-            if (pairs == null || pairs.isEmpty()) {
-                return false;
-            }
+        List<NormalAnnotationExpr> exprs = parentNode.findAll(NormalAnnotationExpr.class);
 
-            for (MemberValuePair pair : pairs) {
-                if (pair.getNameAsString().equals(Attributes.RESPONSE_CODE)) {
-                    Integer responseCode = ResponseUtils.resolveResponseCode(pair.getValue().toString());
-                    if (responseCode != null && responseCode >= 200 && responseCode < 400) {
-                        return true;
+        for (NormalAnnotationExpr e : exprs) {
+            if (e.getNameAsString().equals(ApiResponse.class.getSimpleName())) {
+                NodeList<MemberValuePair> pairs = e.getPairs();
+                if (pairs != null && !pairs.isEmpty()) {
+                    for (MemberValuePair pair : pairs) {
+                        if (pair.getNameAsString().equals(Attributes.CODE)) {
+                            Integer responseCode = ResponseUtils.resolveResponseCode(pair.getValue().toString());
+                            if (responseCode != null && responseCode >= 200 && responseCode < 400) {
+                                return new ResponseOk(e, responseCode);
+                            }
+                        }
                     }
                 }
             }
-            return false;
-        });
-        if (!exprs.isEmpty()) {
-            return exprs.get(0);
         }
-        return parentNode.addAndGetAnnotation(ApiResponse.class);
+        return new ResponseOk(parentNode.addAndGetAnnotation(ApiResponse.class));
+    }
+
+    class ResponseOk {
+        private NormalAnnotationExpr expr;
+        private int responseCode;
+
+        public ResponseOk(NormalAnnotationExpr expr) {
+            this.expr = expr;
+            this.responseCode = 200;
+        }
+
+        public ResponseOk(NormalAnnotationExpr expr, int responseCode) {
+            this.expr = expr;
+            this.responseCode = responseCode;
+        }
+
+        public NormalAnnotationExpr getExpr() {
+            return expr;
+        }
+
+        public void setExpr(NormalAnnotationExpr expr) {
+            this.expr = expr;
+        }
+
+        public int getResponseCode() {
+            return responseCode;
+        }
+
+        public void setResponseCode(int responseCode) {
+            this.responseCode = responseCode;
+        }
     }
 }

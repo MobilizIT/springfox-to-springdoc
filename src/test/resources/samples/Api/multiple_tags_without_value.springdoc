@@ -1,0 +1,6 @@
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
+
+@Tags(value = {@Tag(name = "this is a tag"), @Tag(name = "this is another tag")})
+public class TestController {
+}

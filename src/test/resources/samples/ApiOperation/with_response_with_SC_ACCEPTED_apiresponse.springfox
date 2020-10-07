@@ -1,0 +1,12 @@
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import jakarta.servlet.http.HttpServletResponse;
+
+public class TestController {
+
+    @ApiOperation(value = "a method", response = Domino.class)
+    @ApiResponse(code = HttpServletResponse.SC_ACCEPTED, message = "OK")
+    public String method() {
+        return null;
+    }
+}
