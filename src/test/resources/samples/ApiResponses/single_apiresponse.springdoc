@@ -1,0 +1,11 @@
+import jakarta.servlet.http.HttpServletResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
+public class TestController {
+
+    @ApiResponses(value = @ApiResponse(responseCode = "200", description = "OK"))
+    public Domino method() {
+        return null;
+    }
+}

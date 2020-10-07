@@ -1,13 +1,13 @@
 import jakarta.servlet.http.HttpServletResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 public class TestController {
 
     @Operation(summary = "a method")
-    @ApiResponse(responseCode = "202", content = @Content(schema = @Schema(implementation = Domino.class)))
+    @ApiResponse(responseCode = "202", description = "OK", content = @Content(schema = @Schema(implementation = Domino.class)))
     public String method() {
         return null;
     }

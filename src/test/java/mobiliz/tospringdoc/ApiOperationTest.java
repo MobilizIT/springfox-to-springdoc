@@ -11,32 +11,37 @@ public class ApiOperationTest extends AbstractSampleTest {
 
     @Test
     public void normalValue() throws IOException {
-        compareSamples("normal_value");
+        testBySample("normal_value");
+    }
+
+    @Test
+    public void notes() throws IOException {
+        testBySample("notes");
     }
 
     @Test
     public void withResponseWithoutApiResponse() throws IOException {
-        compareSamples("with_response_without_apiresponse");
+        testBySample("with_response_without_apiresponse");
     }
 
     @Test
     public void withResponseListWithoutApiResponse() throws IOException {
-        compareSamples("with_response_list_without_apiresponse");
+        testBySample("with_response_list_without_apiresponse");
     }
 
     @Test
     public void withResponseSetWithoutApiResponse() throws IOException {
-        compareSamples("with_response_set_without_apiresponse");
+        testBySample("with_response_set_without_apiresponse");
     }
 
     @Test
     public void withResponseSetWithScOkApiResponse() throws IOException {
-        compareSamples("with_response_with_SC_OK_apiresponse");
+        testBySample("with_response_with_SC_OK_apiresponse");
     }
 
     @Test
     public void withResponseSetWithScAcceptedApiResponse() throws IOException {
-        compareSamples("with_response_with_SC_ACCEPTED_apiresponse");
+        testBySample("with_response_with_SC_ACCEPTED_apiresponse");
     }
 
 }

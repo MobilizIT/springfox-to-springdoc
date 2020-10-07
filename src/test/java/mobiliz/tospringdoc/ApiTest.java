@@ -12,17 +12,17 @@ public class ApiTest extends AbstractSampleTest {
 
     @Test
     public void normalValue() throws IOException {
-        compareSamples("normal_value");
+        testBySample("normal_value");
     }
 
     @Test
     public void tagsSingle() throws IOException {
-        compareSamples("tags_single");
+        testBySample("tags_single");
     }
 
     @Test
     public void multipleTagsWithoutValue() throws IOException {
-        compareSamples("multiple_tags_without_value");
+        testBySample("multiple_tags_without_value");
     }
 
 }

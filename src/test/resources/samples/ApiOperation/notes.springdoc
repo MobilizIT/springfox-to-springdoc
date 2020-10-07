@@ -1,0 +1,9 @@
+import io.swagger.v3.oas.annotations.Operation;
+
+public class TestController {
+
+    @Operation(summary = "a service method", description = "some note")
+    public Domino method() {
+        return null;
+    }
+}

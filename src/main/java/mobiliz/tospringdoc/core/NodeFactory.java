@@ -1,25 +1,14 @@
 package mobiliz.tospringdoc.core;
 
 import com.github.javaparser.ast.expr.ClassExpr;
-import com.github.javaparser.ast.expr.MemberValuePair;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public final class NodeFactory {
-
-    public static MemberValuePair createMemberValuePair(String name, String value) {
-        MemberValuePair pair = new MemberValuePair();
-        pair.setName(name);
-        StringLiteralExpr valueExpr = new StringLiteralExpr();
-        valueExpr.setString(value);
-        pair.setValue(valueExpr);
-        return pair;
-    }
 
     public static ClassExpr createClassExpr(String name) {
         String identifier = name.endsWith(".class") ? name.substring(0, name.length() - 6) : name;

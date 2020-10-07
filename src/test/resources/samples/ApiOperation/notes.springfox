@@ -1,0 +1,9 @@
+import io.swagger.annotations.ApiOperation;
+
+public class TestController {
+
+    @ApiOperation(value = "a service method", notes = "some note")
+    public Domino method() {
+        return null;
+    }
+}

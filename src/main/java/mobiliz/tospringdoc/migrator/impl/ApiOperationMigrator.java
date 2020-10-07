@@ -1,20 +1,24 @@
 package mobiliz.tospringdoc.migrator.impl;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.MemberValuePair;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
 import mobiliz.tospringdoc.core.Attributes;
 import mobiliz.tospringdoc.migrator.AbstractSchemaHolderAnnotationMigrator;
+import mobiliz.tospringdoc.util.NodeUtils;
 import mobiliz.tospringdoc.util.ResponseUtils;
 
 public class ApiOperationMigrator extends AbstractSchemaHolderAnnotationMigrator {
+
+    private final ApiResponseMigrator apiResponseMigrator = new ApiResponseMigrator();
 
     @Override
     public void migrate(NormalAnnotationExpr expr) {
@@ -45,18 +49,17 @@ public class ApiOperationMigrator extends AbstractSchemaHolderAnnotationMigrator
     }
 
     private void applyResponseOk(NormalAnnotationExpr expr, String response, String responseContainer) {
-        ResponseOk responseOk = getResponseOkExpr(expr);
-        NormalAnnotationExpr responseOkExpr = responseOk.getExpr();
-        if (responseOkExpr.getPairs() != null) {
-            responseOkExpr.getPairs().clear();
+        NormalAnnotationExpr responseOkExpr = getResponseOkExpr(expr);
+        apiResponseMigrator.migrate(responseOkExpr);
+        if (NodeUtils.getPair(responseOkExpr, Attributes.RESPONSE_CODE) == null) {
+            responseOkExpr.addPair(Attributes.RESPONSE_CODE, new StringLiteralExpr("200"));
         }
-        responseOkExpr.addPair(Attributes.RESPONSE_CODE, new StringLiteralExpr(String.valueOf(responseOk.getResponseCode())));
         applyResponse(responseOkExpr, response, responseContainer);
     }
 
 
-    private ResponseOk getResponseOkExpr(NormalAnnotationExpr expr) {
-        MethodDeclaration parentNode = (MethodDeclaration) expr.getParentNode().get();
+    private NormalAnnotationExpr getResponseOkExpr(NormalAnnotationExpr expr) {
+        Node parentNode = expr.getParentNode().get();
         List<NormalAnnotationExpr> exprs = parentNode.findAll(NormalAnnotationExpr.class);
 
         for (NormalAnnotationExpr e : exprs) {
@@ -67,44 +70,13 @@ public class ApiOperationMigrator extends AbstractSchemaHolderAnnotationMigrator
                         if (pair.getNameAsString().equals(Attributes.CODE)) {
                             Integer responseCode = ResponseUtils.resolveResponseCode(pair.getValue().toString());
                             if (responseCode != null && responseCode >= 200 && responseCode < 400) {
-                                return new ResponseOk(e, responseCode);
+                                return e;
                             }
                         }
                     }
                 }
             }
         }
-        return new ResponseOk(parentNode.addAndGetAnnotation(ApiResponse.class));
-    }
-
-    class ResponseOk {
-        private NormalAnnotationExpr expr;
-        private int responseCode;
-
-        public ResponseOk(NormalAnnotationExpr expr) {
-            this.expr = expr;
-            this.responseCode = 200;
-        }
-
-        public ResponseOk(NormalAnnotationExpr expr, int responseCode) {
-            this.expr = expr;
-            this.responseCode = responseCode;
-        }
-
-        public NormalAnnotationExpr getExpr() {
-            return expr;
-        }
-
-        public void setExpr(NormalAnnotationExpr expr) {
-            this.expr = expr;
-        }
-
-        public int getResponseCode() {
-            return responseCode;
-        }
-
-        public void setResponseCode(int responseCode) {
-            this.responseCode = responseCode;
-        }
+        return ((NodeWithAnnotations) parentNode).addAndGetAnnotation(ApiResponse.class);
     }
 }
