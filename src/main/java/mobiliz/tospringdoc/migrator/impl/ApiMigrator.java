@@ -22,10 +22,6 @@ public class ApiMigrator extends AbstractAnnotationMigrator {
     @Override
     public void migrate(NormalAnnotationExpr expr) {
         replaceOrAddImport(expr, Api.class, Tag.class);
-        if (expr.getPairs() == null || expr.getPairs().isEmpty()) {
-            expr.setName(Tag.class.getSimpleName());
-            return;
-        }
         List<MemberValuePair> pairs = new ArrayList<>(expr.getPairs());
         expr.getPairs().clear();
         List<String> tags = new ArrayList<>();
@@ -67,10 +63,6 @@ public class ApiMigrator extends AbstractAnnotationMigrator {
 
 
     private List<String> getTags(MemberValuePair pair) {
-        if (pair == null || pair.getValue() == null) {
-            return Collections.emptyList();
-        }
-
         if (pair.getValue() instanceof StringLiteralExpr) {
             return Collections.singletonList(pair.getValue().asStringLiteralExpr().getValue());
         }

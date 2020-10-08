@@ -68,7 +68,7 @@ public class ApiOperationMigrator extends AbstractAnnotationMigrator {
     private NormalAnnotationExpr getResponseOkExpr(NormalAnnotationExpr expr) {
         Node parentNode = expr.getParentNode().get();
         List<NormalAnnotationExpr> exprs = parentNode.findAll(NormalAnnotationExpr.class);
-
+        NormalAnnotationExpr responseOk = null;
         for (NormalAnnotationExpr e : exprs) {
             if (e.getNameAsString().equals(ApiResponse.class.getSimpleName())) {
                 NodeList<MemberValuePair> pairs = e.getPairs();
@@ -77,12 +77,17 @@ public class ApiOperationMigrator extends AbstractAnnotationMigrator {
                         if (pair.getNameAsString().equals(Attributes.CODE)) {
                             Integer responseCode = ResponseUtils.resolveResponseCode(pair.getValue().toString());
                             if (responseCode != null && responseCode >= 200 && responseCode < 400) {
-                                return e;
+                                responseOk = e;
+                                break;
                             }
                         }
                     }
                 }
             }
+        }
+
+        if (responseOk != null) {
+            return responseOk;
         }
         return ((NodeWithAnnotations) parentNode).addAndGetAnnotation(ApiResponse.class);
     }

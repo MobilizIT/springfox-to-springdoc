@@ -10,6 +10,11 @@ public class ApiResponsesTest extends AbstractSampleTest {
     }
 
     @Test
+    public void marker() throws IOException {
+        testBySample("marker");
+    }
+
+    @Test
     public void singleApiResponse() throws IOException {
         testBySample("single_apiresponse");
     }

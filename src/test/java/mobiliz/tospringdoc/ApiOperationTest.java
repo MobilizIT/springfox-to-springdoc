@@ -10,6 +10,11 @@ public class ApiOperationTest extends AbstractSampleTest {
     }
 
     @Test
+    public void marker() throws IOException {
+        testBySample("marker");
+    }
+
+    @Test
     public void normalValue() throws IOException {
         testBySample("normal_value");
     }

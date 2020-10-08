@@ -15,10 +15,6 @@ public class ApiResponsesMigrator extends AbstractAnnotationMigrator {
     @Override
     public void migrate(NormalAnnotationExpr expr) {
         replaceOrAddImport(expr, ApiResponses.class, io.swagger.v3.oas.annotations.responses.ApiResponses.class);
-        if (expr.getPairs() == null || expr.getPairs().isEmpty()) {
-            return;
-        }
-
         MemberValuePair valuePair = expr.getPairs().get(0);
         if (valuePair.getValue() instanceof NormalAnnotationExpr) {
             apiResponseMigrator.migrate((NormalAnnotationExpr) valuePair.getValue());

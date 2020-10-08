@@ -13,6 +13,7 @@ public class ApiModelPropertyMigrator extends AbstractAnnotationMigrator {
     @Override
     public void migrate(NormalAnnotationExpr expr) {
         replaceOrAddImport(expr, ApiModelProperty.class, Schema.class);
+        expr.setName(Schema.class.getSimpleName());
         for (MemberValuePair pair : expr.getPairs()) {
             String name = pair.getNameAsString();
             if (Attributes.VALUE.equals(name)) {

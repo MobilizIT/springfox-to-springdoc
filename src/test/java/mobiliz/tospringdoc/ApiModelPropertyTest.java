@@ -13,4 +13,10 @@ public class ApiModelPropertyTest extends AbstractSampleTest {
     public void marker() throws IOException {
         testBySample("marker");
     }
+
+    @Test
+    public void single() throws IOException {
+        testBySample("single");
+    }
+
 }

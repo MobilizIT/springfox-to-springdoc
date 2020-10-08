@@ -1,0 +1,9 @@
+import io.swagger.annotations.ApiOperation;
+
+public class TestController {
+
+    @ApiOperation
+    public String method() {
+        return null;
+    }
+}

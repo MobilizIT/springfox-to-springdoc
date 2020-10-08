@@ -11,6 +11,11 @@ public class ApiResponseTest extends AbstractSampleTest {
     }
 
     @Test
+    public void marker() throws IOException {
+        testBySample("marker");
+    }
+
+    @Test
     public void codeAndMessage() throws IOException {
         testBySample("code_and_message");
     }

@@ -1,0 +1,9 @@
+import io.swagger.annotations.ApiResponses;
+
+public class TestController {
+
+    @ApiResponses
+    public Domino method() {
+        return null;
+    }
+}

@@ -11,9 +11,6 @@ import mobiliz.tospringdoc.core.Attributes;
 public abstract class AbstractAnnotationMigrator implements AnnotationMigrator {
 
     public void replaceOrAddImport(Node node, Class<? extends Annotation> foxAnno, Class<? extends Annotation> docAnno) {
-        if (node == null) {
-            return;
-        }
         node.findAncestor(CompilationUnit.class).ifPresent(p -> {
             if (p.getImports() != null) {
                 p.getImports().removeIf(i -> i.getNameAsString().equals(foxAnno.getCanonicalName()));
