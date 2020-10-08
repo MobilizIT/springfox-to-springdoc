@@ -1,0 +1,5 @@
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(value = "user", description = "user data")
+public class User {
+}

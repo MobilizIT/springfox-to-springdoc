@@ -1,0 +1,7 @@
+import io.swagger.v3.oas.annotations.media.Schema;
+
+public class User {
+
+    @Schema(description = "A brief description of this property")
+    private String name;
+}

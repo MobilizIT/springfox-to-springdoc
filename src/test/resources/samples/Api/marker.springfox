@@ -1,0 +1,5 @@
+import io.swagger.annotations.Api;
+
+@Api
+public class TestController {
+}

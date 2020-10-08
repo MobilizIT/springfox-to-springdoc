@@ -1,0 +1,7 @@
+import io.swagger.annotations.ApiModelProperty;
+
+public class User {
+
+    @ApiModelProperty
+    private String name;
+}

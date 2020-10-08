@@ -11,9 +11,15 @@ public class ApiTest extends AbstractSampleTest {
     }
 
     @Test
+    public void marker() throws IOException {
+        testBySample("marker");
+    }
+
+    @Test
     public void normalValue() throws IOException {
         testBySample("normal_value");
     }
+
 
     @Test
     public void tagsSingle() throws IOException {
