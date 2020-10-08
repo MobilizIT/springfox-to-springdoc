@@ -2,6 +2,7 @@ package mobiliz.tospringdoc;
 
 import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
+import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.github.javaparser.ast.visitor.ModifierVisitor;
 import com.github.javaparser.ast.visitor.Visitable;
 import io.swagger.annotations.Api;
@@ -32,6 +33,15 @@ public class ToSpringDocVisitor extends ModifierVisitor<Object> {
 
     @Override
     public Visitable visit(NormalAnnotationExpr n, Object arg) {
+        String name = n.getNameAsString();
+        if (ANNO_MIGRATE_MAP.containsKey(name)) {
+            ANNO_MIGRATE_MAP.get(name).migrate(n);
+        }
+        return n;
+    }
+
+    @Override
+    public Visitable visit(SingleMemberAnnotationExpr n, Object arg) {
         String name = n.getNameAsString();
         if (ANNO_MIGRATE_MAP.containsKey(name)) {
             ANNO_MIGRATE_MAP.get(name).migrate(n);

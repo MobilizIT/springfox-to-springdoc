@@ -1,0 +1,5 @@
+import springfox.documentation.annotations.ApiIgnore;
+
+@ApiIgnore("some description")
+public class TestController {
+}

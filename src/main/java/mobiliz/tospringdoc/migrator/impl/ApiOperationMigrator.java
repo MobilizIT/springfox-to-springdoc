@@ -13,11 +13,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
 import mobiliz.tospringdoc.core.Attributes;
-import mobiliz.tospringdoc.migrator.AbstractSchemaHolderAnnotationMigrator;
+import mobiliz.tospringdoc.migrator.AbstractAnnotationMigrator;
 import mobiliz.tospringdoc.util.NodeUtils;
 import mobiliz.tospringdoc.util.ResponseUtils;
 
-public class ApiOperationMigrator extends AbstractSchemaHolderAnnotationMigrator {
+public class ApiOperationMigrator extends AbstractAnnotationMigrator {
 
     private final ApiResponseMigrator apiResponseMigrator = new ApiResponseMigrator();
 
@@ -61,7 +61,7 @@ public class ApiOperationMigrator extends AbstractSchemaHolderAnnotationMigrator
         if (NodeUtils.getPair(responseOkExpr, Attributes.RESPONSE_CODE) == null) {
             responseOkExpr.addPair(Attributes.RESPONSE_CODE, new StringLiteralExpr("200"));
         }
-        applyResponse(responseOkExpr, response, responseContainer);
+        NodeUtils.applyResponse(responseOkExpr, response, responseContainer);
     }
 
 

@@ -10,7 +10,6 @@ public class Main {
 
     private static String sampleClass = "MobileReportController.java";
 
-
     public static void main(String... args) throws FileNotFoundException {
         JavaParser javaParser = new JavaParser();
         ParseResult<CompilationUnit> parse = javaParser.parse(new File(sampleClass));

@@ -20,6 +20,11 @@ public class ApiIgnoreTest extends AbstractSampleTest {
     }
 
     @Test
+    public void singleType() throws IOException {
+        testBySample("single_type");
+    }
+
+    @Test
     public void markerMethod() throws IOException {
         testBySample("marker_method");
     }

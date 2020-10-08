@@ -9,10 +9,11 @@ import io.swagger.annotations.ApiResponse;
 import java.util.ArrayList;
 import java.util.List;
 import mobiliz.tospringdoc.core.Attributes;
-import mobiliz.tospringdoc.migrator.AbstractSchemaHolderAnnotationMigrator;
+import mobiliz.tospringdoc.migrator.AbstractAnnotationMigrator;
+import mobiliz.tospringdoc.util.NodeUtils;
 import mobiliz.tospringdoc.util.ResponseUtils;
 
-public class ApiResponseMigrator extends AbstractSchemaHolderAnnotationMigrator {
+public class ApiResponseMigrator extends AbstractAnnotationMigrator {
 
     @Override
     public void migrate(NormalAnnotationExpr expr) {
@@ -40,7 +41,7 @@ public class ApiResponseMigrator extends AbstractSchemaHolderAnnotationMigrator 
                     responseContainer = pair.getValue().toString();
             }
         }
-        applyResponse(expr, response, responseContainer);
+        NodeUtils.applyResponse(expr, response, responseContainer);
     }
 
     @Override
