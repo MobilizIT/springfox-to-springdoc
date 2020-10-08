@@ -17,4 +17,7 @@ public final class Attributes {
     public static final String NAME = "name";
     public static final String TAGS = "tags";
     public static final String HIDDEN = "hidden";
+
+    private Attributes() {
+    }
 }

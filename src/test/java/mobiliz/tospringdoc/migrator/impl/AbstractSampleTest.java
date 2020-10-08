@@ -1,4 +1,4 @@
-package mobiliz.tospringdoc;
+package mobiliz.tospringdoc.migrator.impl;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
@@ -6,6 +6,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.nio.charset.StandardCharsets;
+import mobiliz.tospringdoc.ToSpringDocVisitor;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 

@@ -10,6 +10,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 public final class NodeFactory {
 
+    private NodeFactory() {
+    }
+
     public static ClassExpr createClassExpr(String name) {
         String identifier = name.endsWith(".class") ? name.substring(0, name.length() - 6) : name;
         ClassOrInterfaceType classOrInterfaceType = new ClassOrInterfaceType();

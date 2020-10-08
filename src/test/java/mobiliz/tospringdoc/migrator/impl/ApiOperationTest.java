@@ -1,4 +1,4 @@
-package mobiliz.tospringdoc;
+package mobiliz.tospringdoc.migrator.impl;
 
 import io.swagger.annotations.ApiOperation;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package mobiliz.tospringdoc;
+package mobiliz.tospringdoc.migrator.impl;
 
 import java.io.IOException;
 import org.junit.Test;
