@@ -1,10 +1,11 @@
-package mobiliz.tospringdoc;
+package mobiliz.tospringdoc.cli;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import java.io.File;
 import java.io.FileNotFoundException;
+import mobiliz.tospringdoc.ToSpringDocVisitor;
 
 public class Main {
 
