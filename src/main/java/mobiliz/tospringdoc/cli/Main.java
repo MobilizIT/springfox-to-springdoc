@@ -1,22 +1,44 @@
 package mobiliz.tospringdoc.cli;
 
-import com.github.javaparser.JavaParser;
-import com.github.javaparser.ParseResult;
-import com.github.javaparser.ast.CompilationUnit;
-import java.io.File;
-import java.io.FileNotFoundException;
-import mobiliz.tospringdoc.ToSpringDocVisitor;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 public class Main {
 
-    private static String sampleClass = "MobileReportController.java";
+    private static final Options CLI_OPTIONS = new Options();
 
-    public static void main(String... args) throws FileNotFoundException {
-        JavaParser javaParser = new JavaParser();
-        ParseResult<CompilationUnit> parse = javaParser.parse(new File(sampleClass));
-        CompilationUnit compilationUnit = parse.getResult().get();
-        ToSpringDocVisitor toSpringDoc = new ToSpringDocVisitor();
-        toSpringDoc.visit(compilationUnit, null);
-        System.out.println(compilationUnit);
+    static {
+        CLI_OPTIONS.addOption("h", "help", false, "display this help and exit");
+        CLI_OPTIONS.addOption("i", "in-place", false, "migrate files in place");
+        CLI_OPTIONS.addOption("o", "out", false,
+            "write migrated source instead of stdout. This option is discarded if in-place option set.");
+    }
+
+    public static void main(String... args) {
+        CommandLine cmd = parseArgs(args);
+        if (cmd.hasOption("h")) {
+            pringHelp();
+            return;
+        }
+    }
+
+    private static void pringHelp() {
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("java -jar stringfox-to-springdoc.jar <src> [options]", CLI_OPTIONS);
+    }
+
+    private static CommandLine parseArgs(String... args) {
+        CommandLineParser parser = new DefaultParser();
+        try {
+            return parser.parse(CLI_OPTIONS, args);
+        } catch (ParseException e) {
+            pringHelp();
+            System.exit(1);
+            return null;
+        }
     }
 }
