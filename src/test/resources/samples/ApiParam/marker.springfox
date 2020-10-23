@@ -1,0 +1,9 @@
+import io.swagger.annotations.ApiParam;
+
+public class TestController {
+
+    @ApiParam
+    public String method() {
+        return null;
+    }
+}

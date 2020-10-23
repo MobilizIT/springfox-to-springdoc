@@ -1,0 +1,8 @@
+import io.swagger.annotations.ApiParam;
+
+public class TestController {
+
+    public Domino getDomino(@ApiParam(value = "getDomino Description") String name) {
+        return null;
+    }
+}
