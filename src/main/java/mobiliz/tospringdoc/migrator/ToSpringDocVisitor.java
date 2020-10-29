@@ -1,16 +1,27 @@
-package mobiliz.tospringdoc;
+package mobiliz.tospringdoc.migrator;
 
 import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 import com.github.javaparser.ast.expr.NormalAnnotationExpr;
 import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.github.javaparser.ast.visitor.ModifierVisitor;
 import com.github.javaparser.ast.visitor.Visitable;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.HashMap;
 import java.util.Map;
-import mobiliz.tospringdoc.migrator.AbstractAnnotationMigrator;
-import mobiliz.tospringdoc.migrator.impl.*;
+import mobiliz.tospringdoc.migrator.impl.ApiIgnoreMigrator;
+import mobiliz.tospringdoc.migrator.impl.ApiMigrator;
+import mobiliz.tospringdoc.migrator.impl.ApiModelMigrator;
+import mobiliz.tospringdoc.migrator.impl.ApiModelPropertyMigrator;
+import mobiliz.tospringdoc.migrator.impl.ApiOperationMigrator;
+import mobiliz.tospringdoc.migrator.impl.ApiParamMigrator;
+import mobiliz.tospringdoc.migrator.impl.ApiResponseMigrator;
+import mobiliz.tospringdoc.migrator.impl.ApiResponsesMigrator;
 import springfox.documentation.annotations.ApiIgnore;
 
 public class ToSpringDocVisitor extends ModifierVisitor<Object> {

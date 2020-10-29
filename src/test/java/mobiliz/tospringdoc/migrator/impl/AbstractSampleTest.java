@@ -6,7 +6,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.nio.charset.StandardCharsets;
-import mobiliz.tospringdoc.ToSpringDocVisitor;
+import mobiliz.tospringdoc.migrator.ToSpringDocVisitor;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 

@@ -12,7 +12,6 @@ public final class FileUtils {
     private FileUtils() {
     }
 
-
     public static List<File> getJavaFiles(String path) throws IOException {
         return Files.walk(Paths.get(path))
             .filter(Files::isRegularFile)
