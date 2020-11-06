@@ -1,0 +1,21 @@
+import java.util.List;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.Parameter;
+
+public class TestController {
+
+    @Parameter(in = ParameterIn.QUERY)
+    public Domino getDomino() {
+        return null;
+    }
+
+    @Parameter(in = ParameterIn.HEADER)
+    public Hede getHede() {
+        return null;
+    }
+
+    @Parameter(in = ParameterIn.PATH)
+    public List<Domino> getDominos() {
+        return null;
+    }
+}

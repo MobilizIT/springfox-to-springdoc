@@ -1,0 +1,9 @@
+import io.swagger.annotations.ApiImplicitParam;
+
+public class TestController {
+
+    @ApiImplicitParam(value = "this is a desctiption")
+    public Domino getDomino() {
+        return null;
+    }
+}

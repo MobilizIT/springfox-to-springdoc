@@ -1,0 +1,9 @@
+import io.swagger.v3.oas.annotations.Parameter;
+
+public class TestController {
+
+    @Parameter(description = "this is a desctiption")
+    public Domino getDomino() {
+        return null;
+    }
+}

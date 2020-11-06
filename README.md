@@ -21,10 +21,11 @@ We are supported most used annotations and its properties. Contributions are wel
  |:-------------|:-------------|
  | [@Api](https://www.javadoc.io/doc/io.swagger/swagger-annotations/1.5.20/io/swagger/annotations/Api.html) | value, tags |
  | [@ApiIgnore](http://springfox.github.io/springfox/javadoc/2.9.2/index.html?springfox/documentation/annotations/ApiIgnore.html) | Complete |
+ | [@ApiImplicitParam](http://springfox.github.io/springfox/javadoc/2.9.2/index.html?springfox/documentation/annotations/ApiImplicitParam.html) | value, name, required, example, allowEmptyValue, paramType (header, path, query) |
  | [@ApiModel](https://www.javadoc.io/doc/io.swagger/swagger-annotations/1.5.20/io/swagger/annotations/ApiModel.html) | value |
  | [@ApiModelProperty](https://www.javadoc.io/doc/io.swagger/swagger-annotations/1.5.20/io/swagger/annotations/ApiModelProperty.html) | value |
  | [@ApiOperation](https://www.javadoc.io/doc/io.swagger/swagger-annotations/1.5.20/io/swagger/annotations/ApiOperation.html) | value, notes, response, responseContainer |
- | [@ApiParam](https://www.javadoc.io/doc/io.swagger/swagger-annotations/1.5.20/io/swagger/annotations/ApiParam.html) | value |
+ | [@ApiParam](https://www.javadoc.io/doc/io.swagger/swagger-annotations/1.5.20/io/swagger/annotations/ApiParam.html) | value, name, required, example, allowEmptyValue, paramType (header, path, query) |
  | [@ApiResponse](https://www.javadoc.io/doc/io.swagger/swagger-annotations/1.5.20/io/swagger/annotations/ApiResponse.html) | code, message, response, responseContainer |
  | [@ApiResponses](https://www.javadoc.io/doc/io.swagger/swagger-annotations/1.5.20/io/swagger/annotations/ApiResponses.html) | Complete |
  

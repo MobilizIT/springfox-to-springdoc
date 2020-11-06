@@ -1,0 +1,9 @@
+import io.swagger.v3.oas.annotations.Parameter;
+
+public class TestController {
+
+    @Parameter(name = "dominoParamName", required = true, example = "5", allowEmptyValue = true)
+    public Domino getDomino() {
+        return null;
+    }
+}

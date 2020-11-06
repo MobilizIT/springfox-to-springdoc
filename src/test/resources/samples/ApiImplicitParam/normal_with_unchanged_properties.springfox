@@ -1,0 +1,9 @@
+import io.swagger.annotations.ApiImplicitParam;
+
+public class TestController {
+
+    @ApiImplicitParam(name = "dominoParamName", required = true, example = "5", allowEmptyValue = true)
+    public Domino getDomino() {
+        return null;
+    }
+}
